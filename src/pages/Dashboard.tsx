@@ -19,6 +19,8 @@ import ChatInterface from '@/components/ChatInterface';
 import StudyResources from '@/components/StudyResources';
 import ProgressTracking from '@/components/ProgressTracking';
 import ProfileSettings from '@/components/ProfileSettings';
+import StudyGoals from '@/components/StudyGoals';
+import StudySchedule from '@/components/StudySchedule';
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -128,20 +130,32 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
         <Tabs defaultValue="chat" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8 bg-card/50 backdrop-blur-sm">
-            <TabsTrigger value="chat" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-6 mb-8 bg-card/50 backdrop-blur-sm overflow-x-auto">
+            <TabsTrigger value="chat" className="flex items-center gap-2 min-w-0">
               <Brain className="h-4 w-4" />
               <span className="hidden sm:inline">AI Chat</span>
             </TabsTrigger>
-            <TabsTrigger value="resources" className="flex items-center gap-2">
+            <TabsTrigger value="resources" className="flex items-center gap-2 min-w-0">
               <BookOpen className="h-4 w-4" />
               <span className="hidden sm:inline">Resources</span>
             </TabsTrigger>
-            <TabsTrigger value="progress" className="flex items-center gap-2">
+            <TabsTrigger value="goals" className="flex items-center gap-2 min-w-0">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="hidden sm:inline">Goals</span>
+            </TabsTrigger>
+            <TabsTrigger value="schedule" className="flex items-center gap-2 min-w-0">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span className="hidden sm:inline">Schedule</span>
+            </TabsTrigger>
+            <TabsTrigger value="progress" className="flex items-center gap-2 min-w-0">
               <TrendingUp className="h-4 w-4" />
               <span className="hidden sm:inline">Progress</span>
             </TabsTrigger>
-            <TabsTrigger value="profile" className="flex items-center gap-2">
+            <TabsTrigger value="profile" className="flex items-center gap-2 min-w-0">
               <Settings className="h-4 w-4" />
               <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
@@ -153,6 +167,14 @@ const Dashboard = () => {
 
           <TabsContent value="resources" className="space-y-6">
             <StudyResources userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="goals" className="space-y-6">
+            <StudyGoals userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="schedule" className="space-y-6">
+            <StudySchedule userId={user.id} />
           </TabsContent>
 
           <TabsContent value="progress" className="space-y-6">
