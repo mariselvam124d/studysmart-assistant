@@ -76,6 +76,48 @@ export type Database = {
         }
         Relationships: []
       }
+      problem_solving_sessions: {
+        Row: {
+          created_at: string
+          difficulty: string | null
+          id: string
+          problem_image_url: string | null
+          problem_text: string | null
+          solution: string | null
+          steps: Json | null
+          subject: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty?: string | null
+          id?: string
+          problem_image_url?: string | null
+          problem_text?: string | null
+          solution?: string | null
+          steps?: Json | null
+          subject: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          difficulty?: string | null
+          id?: string
+          problem_image_url?: string | null
+          problem_text?: string | null
+          solution?: string | null
+          steps?: Json | null
+          subject?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

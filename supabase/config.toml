@@ -1,1 +1,7 @@
 project_id = "ljnrknhjwayggrpamqhg"
+
+[functions.ai-tutor]
+verify_jwt = false
+
+[functions.solve-problem]
+verify_jwt = false
