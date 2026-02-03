@@ -5,3 +5,15 @@ verify_jwt = false
 
 [functions.solve-problem]
 verify_jwt = false
+
+[functions.generate-flashcards]
+verify_jwt = false
+
+[functions.generate-quiz]
+verify_jwt = false
+
+[functions.summarize-notes]
+verify_jwt = false
+
+[functions.generate-study-plan]
+verify_jwt = false
