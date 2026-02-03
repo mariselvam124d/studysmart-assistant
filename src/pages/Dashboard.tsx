@@ -8,12 +8,16 @@ import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
 import { 
   GraduationCap, 
-  MessageSquare, 
   BookOpen, 
   TrendingUp, 
   Settings, 
   LogOut,
-  Brain
+  Brain,
+  Layers,
+  FileQuestion,
+  FileText,
+  Calendar,
+  Lightbulb
 } from 'lucide-react';
 import ChatInterface from '@/components/ChatInterface';
 import StudyResources from '@/components/StudyResources';
@@ -22,6 +26,10 @@ import ProfileSettings from '@/components/ProfileSettings';
 import StudyGoals from '@/components/StudyGoals';
 import StudySchedule from '@/components/StudySchedule';
 import ProblemSolver from '@/components/ProblemSolver';
+import FlashcardGenerator from '@/components/FlashcardGenerator';
+import QuizGenerator from '@/components/QuizGenerator';
+import NoteSummarizer from '@/components/NoteSummarizer';
+import StudyPlanGenerator from '@/components/StudyPlanGenerator';
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -31,7 +39,6 @@ const Dashboard = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
@@ -44,7 +51,6 @@ const Dashboard = () => {
       }
     );
 
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -131,40 +137,42 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
         <Tabs defaultValue="chat" className="w-full">
-          <TabsList className="grid w-full grid-cols-7 mb-8 bg-card/50 backdrop-blur-sm overflow-x-auto">
-            <TabsTrigger value="chat" className="flex items-center gap-2 min-w-0">
+          <TabsList className="flex flex-wrap h-auto gap-1 mb-8 bg-card/50 backdrop-blur-sm p-2">
+            <TabsTrigger value="chat" className="flex items-center gap-2">
               <Brain className="h-4 w-4" />
-              <span className="hidden sm:inline">AI Chat</span>
+              <span className="hidden md:inline">AI Chat</span>
             </TabsTrigger>
-            <TabsTrigger value="resources" className="flex items-center gap-2 min-w-0">
+            <TabsTrigger value="solver" className="flex items-center gap-2">
+              <Lightbulb className="h-4 w-4" />
+              <span className="hidden md:inline">Solver</span>
+            </TabsTrigger>
+            <TabsTrigger value="flashcards" className="flex items-center gap-2">
+              <Layers className="h-4 w-4" />
+              <span className="hidden md:inline">Flashcards</span>
+            </TabsTrigger>
+            <TabsTrigger value="quiz" className="flex items-center gap-2">
+              <FileQuestion className="h-4 w-4" />
+              <span className="hidden md:inline">Quiz</span>
+            </TabsTrigger>
+            <TabsTrigger value="summarizer" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              <span className="hidden md:inline">Summarizer</span>
+            </TabsTrigger>
+            <TabsTrigger value="planner" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span className="hidden md:inline">Planner</span>
+            </TabsTrigger>
+            <TabsTrigger value="resources" className="flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
-              <span className="hidden sm:inline">Resources</span>
+              <span className="hidden md:inline">Resources</span>
             </TabsTrigger>
-            <TabsTrigger value="goals" className="flex items-center gap-2 min-w-0">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="hidden sm:inline">Goals</span>
-            </TabsTrigger>
-            <TabsTrigger value="schedule" className="flex items-center gap-2 min-w-0">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="hidden sm:inline">Schedule</span>
-            </TabsTrigger>
-            <TabsTrigger value="solver" className="flex items-center gap-2 min-w-0">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-              <span className="hidden sm:inline">AI Solver</span>
-            </TabsTrigger>
-            <TabsTrigger value="progress" className="flex items-center gap-2 min-w-0">
+            <TabsTrigger value="progress" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
-              <span className="hidden sm:inline">Progress</span>
+              <span className="hidden md:inline">Progress</span>
             </TabsTrigger>
-            <TabsTrigger value="profile" className="flex items-center gap-2 min-w-0">
+            <TabsTrigger value="profile" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline">Profile</span>
+              <span className="hidden md:inline">Profile</span>
             </TabsTrigger>
           </TabsList>
 
@@ -172,16 +180,28 @@ const Dashboard = () => {
             <ChatInterface userId={user.id} />
           </TabsContent>
 
+          <TabsContent value="solver" className="space-y-6">
+            <ProblemSolver userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="flashcards" className="space-y-6">
+            <FlashcardGenerator userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="quiz" className="space-y-6">
+            <QuizGenerator userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="summarizer" className="space-y-6">
+            <NoteSummarizer userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="planner" className="space-y-6">
+            <StudyPlanGenerator userId={user.id} />
+          </TabsContent>
+
           <TabsContent value="resources" className="space-y-6">
             <StudyResources userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="goals" className="space-y-6">
-            <StudyGoals userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="schedule" className="space-y-6">
-            <StudySchedule userId={user.id} />
           </TabsContent>
 
           <TabsContent value="progress" className="space-y-6">
@@ -190,10 +210,6 @@ const Dashboard = () => {
 
           <TabsContent value="profile" className="space-y-6">
             <ProfileSettings user={user} />
-          </TabsContent>
-
-          <TabsContent value="solver" className="space-y-6">
-            <ProblemSolver userId={user.id} />
           </TabsContent>
         </Tabs>
       </main>
