@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useGamification } from '@/hooks/useGamification';
 import { 
   Calendar, 
   Loader2, 
@@ -75,6 +76,7 @@ const StudyPlanGenerator: React.FC<StudyPlanGeneratorProps> = ({ userId }) => {
   const [loading, setLoading] = useState(false);
   const [studyPlan, setStudyPlan] = useState<StudyPlan | null>(null);
   const { toast } = useToast();
+  const { awardPoints } = useGamification(userId);
 
   const addSubject = () => {
     if (newSubject.trim() && !subjects.includes(newSubject.trim())) {
@@ -110,6 +112,8 @@ const StudyPlanGenerator: React.FC<StudyPlanGeneratorProps> = ({ userId }) => {
 
       setStudyPlan(data.studyPlan);
       toast({ title: 'Study plan generated!', description: 'Your personalized plan is ready' });
+      // Award points for creating a study plan
+      await awardPoints('study_plan_created');
     } catch (error: any) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
     } finally {

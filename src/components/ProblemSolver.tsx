@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Camera, Upload, Sparkles, BookOpen, Trash2, CheckCircle2 } from 'lucide-react';
+import { useGamification } from '@/hooks/useGamification';
 
 interface ProblemSolverProps {
   userId: string;
@@ -51,6 +52,7 @@ const ProblemSolver: React.FC<ProblemSolverProps> = ({ userId }) => {
   const [sessions, setSessions] = useState<ProblemSession[]>([]);
   const [loadingSessions, setLoadingSessions] = useState(true);
   const { toast } = useToast();
+  const { awardPoints } = useGamification(userId);
 
   useEffect(() => {
     loadSessions();
@@ -143,6 +145,9 @@ const ProblemSolver: React.FC<ProblemSolverProps> = ({ userId }) => {
       if (dbError) throw dbError;
 
       await loadSessions();
+      
+      // Award points for solving a problem
+      await awardPoints('problem_solved');
 
       toast({
         title: "Problem solved!",

@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/components/ui/use-toast';
+import { useGamification } from '@/hooks/useGamification';
 import { supabase } from '@/integrations/supabase/client';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
@@ -55,6 +56,7 @@ const QuizGenerator: React.FC<QuizGeneratorProps> = ({ userId }) => {
   const [showResults, setShowResults] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
+  const { awardPoints } = useGamification(userId);
 
   const generateQuiz = async () => {
     if (!topic.trim()) {
@@ -88,9 +90,11 @@ const QuizGenerator: React.FC<QuizGeneratorProps> = ({ userId }) => {
     setAnswers({ ...answers, [questionId]: answer });
   };
 
-  const submitQuiz = () => {
+  const submitQuiz = async () => {
     setSubmitted(true);
     setShowResults(true);
+    // Award points for completing the quiz
+    await awardPoints('quiz_completed');
   };
 
   const calculateScore = () => {

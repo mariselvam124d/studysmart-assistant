@@ -21,7 +21,8 @@ import {
 } from 'lucide-react';
 import ChatInterface from '@/components/ChatInterface';
 import StudyResources from '@/components/StudyResources';
-import ProgressTracking from '@/components/ProgressTracking';
+import GamificationDisplay from '@/components/GamificationDisplay';
+import GamificationWidget from '@/components/GamificationWidget';
 import ProfileSettings from '@/components/ProfileSettings';
 import StudyGoals from '@/components/StudyGoals';
 import StudySchedule from '@/components/StudySchedule';
@@ -110,6 +111,11 @@ const Dashboard = () => {
           </div>
           
           <div className="flex items-center gap-4">
+            {/* Gamification Widget */}
+            <div className="hidden md:block">
+              <GamificationWidget userId={user.id} />
+            </div>
+            
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium text-foreground">
                 {user.user_metadata?.full_name || user.email}
@@ -205,7 +211,7 @@ const Dashboard = () => {
           </TabsContent>
 
           <TabsContent value="progress" className="space-y-6">
-            <ProgressTracking userId={user.id} />
+            <GamificationDisplay userId={user.id} />
           </TabsContent>
 
           <TabsContent value="profile" className="space-y-6">
