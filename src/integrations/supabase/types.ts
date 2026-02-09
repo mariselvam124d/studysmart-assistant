@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          category: string
+          count_required: number | null
+          count_type: string | null
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          name: string
+          points_required: number | null
+        }
+        Insert: {
+          category: string
+          count_required?: number | null
+          count_type?: string | null
+          created_at?: string
+          description: string
+          icon: string
+          id?: string
+          name: string
+          points_required?: number | null
+        }
+        Update: {
+          category?: string
+          count_required?: number | null
+          count_type?: string | null
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          name?: string
+          points_required?: number | null
+        }
+        Relationships: []
+      }
       chat_messages: {
         Row: {
           content: string
@@ -185,6 +221,86 @@ export type Database = {
           resource_type?: string
           subject?: string
           title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_gamification: {
+        Row: {
+          created_at: string
+          current_streak: number
+          flashcards_created: number
+          id: string
+          last_activity_date: string | null
+          level: number
+          longest_streak: number
+          notes_summarized: number
+          problems_solved: number
+          quizzes_completed: number
+          study_plans_created: number
+          total_points: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_streak?: number
+          flashcards_created?: number
+          id?: string
+          last_activity_date?: string | null
+          level?: number
+          longest_streak?: number
+          notes_summarized?: number
+          problems_solved?: number
+          quizzes_completed?: number
+          study_plans_created?: number
+          total_points?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_streak?: number
+          flashcards_created?: number
+          id?: string
+          last_activity_date?: string | null
+          level?: number
+          longest_streak?: number
+          notes_summarized?: number
+          problems_solved?: number
+          quizzes_completed?: number
+          study_plans_created?: number
+          total_points?: number
           updated_at?: string
           user_id?: string
         }

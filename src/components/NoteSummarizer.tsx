@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useGamification } from '@/hooks/useGamification';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   FileText, 
@@ -40,6 +41,7 @@ const NoteSummarizer: React.FC<NoteSummarizerProps> = ({ userId }) => {
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState<Summary | null>(null);
   const { toast } = useToast();
+  const { awardPoints } = useGamification(userId);
 
   const summarizeNotes = async () => {
     if (!content.trim()) {
@@ -58,6 +60,8 @@ const NoteSummarizer: React.FC<NoteSummarizerProps> = ({ userId }) => {
 
       setSummary(data.summary);
       toast({ title: 'Notes summarized!', description: 'Your summary is ready' });
+      // Award points for summarizing notes
+      await awardPoints('note_summarized');
     } catch (error: any) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
     } finally {

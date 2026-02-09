@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useGamification } from '@/hooks/useGamification';
 import { 
   Layers, 
   Loader2, 
@@ -39,6 +40,7 @@ const FlashcardGenerator: React.FC<FlashcardGeneratorProps> = ({ userId }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [inputMode, setInputMode] = useState<'topic' | 'content'>('topic');
   const { toast } = useToast();
+  const { awardPoints } = useGamification(userId);
 
   const generateFlashcards = async () => {
     if (inputMode === 'topic' && !topic.trim()) {
@@ -67,6 +69,8 @@ const FlashcardGenerator: React.FC<FlashcardGeneratorProps> = ({ userId }) => {
       setCurrentIndex(0);
       setIsFlipped(false);
       toast({ title: 'Flashcards generated!', description: `Created ${data.flashcards.length} cards` });
+      // Award points for creating flashcards
+      await awardPoints('flashcard_created');
     } catch (error: any) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
     } finally {
