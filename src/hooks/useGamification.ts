@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
+import { fireAchievementConfetti, fireLevelUpConfetti, playAchievementSound, playLevelUpSound, playPointsSound } from '@/lib/celebrations';
 
 interface GamificationData {
   id: string;
@@ -203,6 +204,10 @@ export const useGamification = (userId: string) => {
             achievement,
           }]);
 
+          // Fire celebration effects
+          fireAchievementConfetti();
+          playAchievementSound();
+
           toast({
             title: "🎉 Achievement Unlocked!",
             description: `${achievement.name}: ${achievement.description}`,
@@ -250,8 +255,10 @@ export const useGamification = (userId: string) => {
       if (data) {
         setGamificationData(data as GamificationData);
         
-        // Check for level up
+        // Check for level up with celebrations
         if (newLevel > gamificationData.level) {
+          fireLevelUpConfetti();
+          playLevelUpSound();
           toast({
             title: "🎊 Level Up!",
             description: `Congratulations! You've reached Level ${newLevel}!`,
@@ -262,6 +269,7 @@ export const useGamification = (userId: string) => {
         await checkAndAwardAchievements(data as GamificationData);
       }
 
+      playPointsSound();
       toast({
         title: `+${points} Points!`,
         description: `You earned points for ${action.replace('_', ' ')}`,

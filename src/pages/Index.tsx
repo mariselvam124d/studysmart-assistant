@@ -13,8 +13,11 @@ import {
   Zap,
   Target,
   Star,
-  ArrowRight
+  ArrowRight,
+  Timer,
+  Layers
 } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle';
 import heroImage from '@/assets/hero-image.jpg';
 
 const Index = () => {
@@ -42,6 +45,18 @@ const Index = () => {
       title: "Goal Setting",
       description: "Set and track personalized learning goals to stay motivated",
       color: "text-orange-600",
+    },
+    {
+      icon: Timer,
+      title: "Pomodoro Timer",
+      description: "Stay focused with timed study sessions and smart break reminders",
+      color: "text-red-600",
+    },
+    {
+      icon: Layers,
+      title: "AI Flashcards",
+      description: "Generate smart flashcards and quizzes from any topic or your notes",
+      color: "text-cyan-600",
     },
   ];
 
@@ -87,11 +102,12 @@ const Index = () => {
           </div>
           
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Link to="/auth">
               <Button variant="ghost">Sign In</Button>
             </Link>
             <Link to="/auth">
-              <Button className="bg-gradient-to-r from-primary to-accent hover:opacity-90">
+              <Button className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity">
                 Get Started
               </Button>
             </Link>
@@ -101,7 +117,7 @@ const Index = () => {
 
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center animate-fade-in">
           <div className="space-y-8">
             <div className="space-y-4">
               <Badge className="bg-primary/10 text-primary border-primary/20">
@@ -171,13 +187,13 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <Card key={index} className="h-full hover:shadow-lg transition-all hover:-translate-y-1">
+                <Card key={index} className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-primary/10 group">
                   <CardHeader>
-                    <div className={`w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4`}>
+                    <div className={`w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                       <Icon className={`h-6 w-6 ${feature.color}`} />
                     </div>
                     <CardTitle className="text-lg">{feature.title}</CardTitle>
