@@ -18,7 +18,8 @@ import {
   FileText,
   Calendar,
   Lightbulb,
-  Timer
+  Timer,
+  Trophy
 } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 import ChatInterface from '@/components/ChatInterface';
@@ -34,6 +35,7 @@ import QuizGenerator from '@/components/QuizGenerator';
 import NoteSummarizer from '@/components/NoteSummarizer';
 import StudyPlanGenerator from '@/components/StudyPlanGenerator';
 import PomodoroTimer from '@/components/PomodoroTimer';
+import Leaderboard from '@/components/Leaderboard';
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -184,6 +186,10 @@ const Dashboard = () => {
               <TrendingUp className="h-4 w-4" />
               <span className="hidden md:inline">Progress</span>
             </TabsTrigger>
+            <TabsTrigger value="leaderboard" className="flex items-center gap-2">
+              <Trophy className="h-4 w-4" />
+              <span className="hidden md:inline">Leaderboard</span>
+            </TabsTrigger>
             <TabsTrigger value="profile" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
               <span className="hidden md:inline">Profile</span>
@@ -224,6 +230,10 @@ const Dashboard = () => {
 
           <TabsContent value="progress" className="space-y-6">
             <GamificationDisplay userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="leaderboard" className="space-y-6">
+            <Leaderboard userId={user.id} />
           </TabsContent>
 
           <TabsContent value="profile" className="space-y-6">

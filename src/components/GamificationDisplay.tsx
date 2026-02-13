@@ -80,7 +80,7 @@ const GamificationDisplay: React.FC<GamificationDisplayProps> = ({ userId }) => 
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-foreground">Your Progress</h2>
@@ -94,7 +94,7 @@ const GamificationDisplay: React.FC<GamificationDisplayProps> = ({ userId }) => 
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index} className="overflow-hidden">
+            <Card key={index} className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:shadow-primary/10">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
                   <div className={`p-2 rounded-lg bg-primary/10`}>
@@ -206,10 +206,10 @@ const GamificationDisplay: React.FC<GamificationDisplayProps> = ({ userId }) => 
               return (
                 <div
                   key={achievement.id}
-                  className={`p-4 rounded-lg border transition-all ${
+                  className={`p-4 rounded-lg border transition-all duration-300 hover:scale-[1.02] ${
                     isEarned
-                      ? 'bg-primary/5 border-primary/20'
-                      : 'bg-muted/20 border-border opacity-60'
+                      ? 'bg-primary/5 border-primary/20 animate-fade-in-scale'
+                      : 'bg-muted/20 border-border opacity-60 hover:opacity-80'
                   }`}
                 >
                   <div className="flex items-start gap-3">
