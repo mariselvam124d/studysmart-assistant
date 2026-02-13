@@ -17,8 +17,10 @@ import {
   FileQuestion,
   FileText,
   Calendar,
-  Lightbulb
+  Lightbulb,
+  Timer
 } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle';
 import ChatInterface from '@/components/ChatInterface';
 import StudyResources from '@/components/StudyResources';
 import GamificationDisplay from '@/components/GamificationDisplay';
@@ -31,6 +33,7 @@ import FlashcardGenerator from '@/components/FlashcardGenerator';
 import QuizGenerator from '@/components/QuizGenerator';
 import NoteSummarizer from '@/components/NoteSummarizer';
 import StudyPlanGenerator from '@/components/StudyPlanGenerator';
+import PomodoroTimer from '@/components/PomodoroTimer';
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -128,6 +131,7 @@ const Dashboard = () => {
                 {(user.user_metadata?.full_name || user.email || '').charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
+            <ThemeToggle />
             <Button 
               variant="ghost" 
               size="sm" 
@@ -168,6 +172,10 @@ const Dashboard = () => {
               <Calendar className="h-4 w-4" />
               <span className="hidden md:inline">Planner</span>
             </TabsTrigger>
+            <TabsTrigger value="timer" className="flex items-center gap-2">
+              <Timer className="h-4 w-4" />
+              <span className="hidden md:inline">Timer</span>
+            </TabsTrigger>
             <TabsTrigger value="resources" className="flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
               <span className="hidden md:inline">Resources</span>
@@ -204,6 +212,10 @@ const Dashboard = () => {
 
           <TabsContent value="planner" className="space-y-6">
             <StudyPlanGenerator userId={user.id} />
+          </TabsContent>
+
+          <TabsContent value="timer" className="space-y-6">
+            <PomodoroTimer userId={user.id} />
           </TabsContent>
 
           <TabsContent value="resources" className="space-y-6">
