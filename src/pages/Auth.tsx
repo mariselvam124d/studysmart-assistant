@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { GraduationCap, Brain, Users } from 'lucide-react';
+import { GraduationCap, Brain, Users, BookOpen } from 'lucide-react';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -32,6 +32,16 @@ const Auth = () => {
           }
         }
       });
+
+      if (error) throw error;
+
+      // Assign student role
+      if (data.user) {
+        await supabase.from('user_roles').insert({
+          user_id: data.user.id,
+          role: 'student' as any,
+        });
+      }
 
       if (error) throw error;
 
@@ -182,7 +192,14 @@ const Auth = () => {
           </CardContent>
         </Card>
 
-        <div className="mt-8 text-center">
+        <div className="mt-6 text-center">
+          <Button variant="link" onClick={() => navigate('/teacher-auth')} className="text-muted-foreground">
+            <BookOpen className="h-4 w-4 mr-2" />
+            I'm a teacher →
+          </Button>
+        </div>
+
+        <div className="mt-4 text-center">
           <div className="flex items-center justify-center gap-8 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Brain className="h-4 w-4" />
