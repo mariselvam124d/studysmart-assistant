@@ -36,6 +36,7 @@ import NoteSummarizer from '@/components/NoteSummarizer';
 import StudyPlanGenerator from '@/components/StudyPlanGenerator';
 import PomodoroTimer from '@/components/PomodoroTimer';
 import Leaderboard from '@/components/Leaderboard';
+import JoinClassroom from '@/components/JoinClassroom';
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -190,9 +191,9 @@ const Dashboard = () => {
               <Trophy className="h-4 w-4" />
               <span className="hidden md:inline">Leaderboard</span>
             </TabsTrigger>
-            <TabsTrigger value="profile" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              <span className="hidden md:inline">Profile</span>
+            <TabsTrigger value="classroom" className="flex items-center gap-2">
+              <BookOpen className="h-4 w-4" />
+              <span className="hidden md:inline">Classroom</span>
             </TabsTrigger>
           </TabsList>
 
@@ -236,9 +237,14 @@ const Dashboard = () => {
             <Leaderboard userId={user.id} />
           </TabsContent>
 
+          <TabsContent value="classroom" className="space-y-6">
+            <JoinClassroom userId={user.id} />
+          </TabsContent>
+
           <TabsContent value="profile" className="space-y-6">
             <ProfileSettings user={user} />
           </TabsContent>
+
         </Tabs>
       </main>
     </div>
