@@ -101,6 +101,10 @@ export default {
           from: { opacity: "0", transform: "translateX(20px)" },
           to: { opacity: "1", transform: "translateX(0)" },
         },
+        "slide-in-left": {
+          from: { opacity: "0", transform: "translateX(-20px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
         "glow": {
           "0%, 100%": { boxShadow: "0 0 20px hsl(var(--primary) / 0.3)" },
           "50%": { boxShadow: "0 0 40px hsl(var(--primary) / 0.6)" },
@@ -108,6 +112,11 @@ export default {
         "float": {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
+        },
+        "float-slow": {
+          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
+          "33%": { transform: "translateY(-8px) rotate(1deg)" },
+          "66%": { transform: "translateY(-4px) rotate(-1deg)" },
         },
         "shimmer": {
           "0%": { backgroundPosition: "-200% 0" },
@@ -128,6 +137,26 @@ export default {
           "25%": { transform: "rotate(-3deg)" },
           "75%": { transform: "rotate(3deg)" },
         },
+        "rotate-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        "scale-up": {
+          from: { opacity: "0", transform: "scale(0.8)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        "gradient-x": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "count-up": {
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "marquee": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -137,12 +166,19 @@ export default {
         "fade-in-scale": "fade-in-scale 0.4s ease-out",
         "slide-in": "slide-in 0.3s ease-out",
         "slide-in-right": "slide-in-right 0.4s ease-out",
+        "slide-in-left": "slide-in-left 0.4s ease-out",
         "glow": "glow 2s ease-in-out infinite",
         "float": "float 3s ease-in-out infinite",
+        "float-slow": "float-slow 6s ease-in-out infinite",
         "shimmer": "shimmer 2s linear infinite",
         "bounce-in": "bounce-in 0.6s ease-out",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "wiggle": "wiggle 0.5s ease-in-out",
+        "rotate-slow": "rotate-slow 20s linear infinite",
+        "scale-up": "scale-up 0.5s ease-out",
+        "gradient-x": "gradient-x 3s ease infinite",
+        "count-up": "count-up 0.8s ease-out",
+        "marquee": "marquee 30s linear infinite",
       },
     },
   },
