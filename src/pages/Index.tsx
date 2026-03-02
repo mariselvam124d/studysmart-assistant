@@ -127,6 +127,9 @@ const Index = () => {
                 {item}
               </a>
             ))}
+            <Link to="/team" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors story-link">
+              Our Team
+            </Link>
           </nav>
 
           <div className="flex items-center gap-3">
