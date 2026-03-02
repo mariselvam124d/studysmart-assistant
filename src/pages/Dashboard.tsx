@@ -91,8 +91,16 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
+        <div className="absolute w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float-slow top-20 left-20 pointer-events-none" />
+        <div className="absolute w-56 h-56 bg-accent/10 rounded-full blur-3xl animate-float bottom-20 right-20 pointer-events-none" />
+        <div className="flex flex-col items-center gap-4 animate-fade-in">
+          <div className="relative">
+            <div className="w-16 h-16 border-4 border-primary/20 rounded-full" />
+            <div className="absolute inset-0 w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          </div>
+          <p className="text-muted-foreground text-sm font-medium animate-pulse-glow">Loading your dashboard...</p>
+        </div>
       </div>
     );
   }
@@ -104,20 +112,19 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5">
       {/* Header */}
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b border-border/50 bg-card/70 backdrop-blur-xl sticky top-0 z-40 shadow-sm animate-fade-in">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-primary to-accent rounded-lg">
-              <GraduationCap className="h-6 w-6 text-white" />
+          <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate('/')}>
+            <div className="p-2 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg group-hover:shadow-primary/30 transition-all duration-300 group-hover:scale-105 transform">
+              <GraduationCap className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">StudySmart</h1>
-              <p className="text-sm text-muted-foreground">AI Learning Assistant</p>
+              <h1 className="text-xl font-bold text-foreground tracking-tight">StudySmart</h1>
+              <p className="text-[11px] text-muted-foreground font-medium tracking-wider uppercase">AI Learning Assistant</p>
             </div>
           </div>
           
           <div className="flex items-center gap-4">
-            {/* Gamification Widget */}
             <div className="hidden md:block">
               <GamificationWidget userId={user.id} />
             </div>
@@ -128,9 +135,9 @@ const Dashboard = () => {
               </p>
               <p className="text-xs text-muted-foreground">Student</p>
             </div>
-            <Avatar>
+            <Avatar className="ring-2 ring-primary/20 hover:ring-primary/50 transition-all duration-300">
               <AvatarImage src={user.user_metadata?.avatar_url} />
-              <AvatarFallback className="bg-primary text-primary-foreground">
+              <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-bold">
                 {(user.user_metadata?.full_name || user.email || '').charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -139,7 +146,7 @@ const Dashboard = () => {
               variant="ghost" 
               size="sm" 
               onClick={handleSignOut}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground hover:bg-destructive/10 transition-all duration-300"
             >
               <LogOut className="h-4 w-4" />
             </Button>
@@ -148,103 +155,51 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-4 py-6 animate-fade-in-up" style={{ animationDelay: '0.15s', animationFillMode: 'both' }}>
         <Tabs defaultValue="chat" className="w-full">
-          <TabsList className="flex flex-wrap h-auto gap-1 mb-8 bg-card/50 backdrop-blur-sm p-2">
-            <TabsTrigger value="chat" className="flex items-center gap-2">
-              <Brain className="h-4 w-4" />
-              <span className="hidden md:inline">AI Chat</span>
-            </TabsTrigger>
-            <TabsTrigger value="solver" className="flex items-center gap-2">
-              <Lightbulb className="h-4 w-4" />
-              <span className="hidden md:inline">Solver</span>
-            </TabsTrigger>
-            <TabsTrigger value="flashcards" className="flex items-center gap-2">
-              <Layers className="h-4 w-4" />
-              <span className="hidden md:inline">Flashcards</span>
-            </TabsTrigger>
-            <TabsTrigger value="quiz" className="flex items-center gap-2">
-              <FileQuestion className="h-4 w-4" />
-              <span className="hidden md:inline">Quiz</span>
-            </TabsTrigger>
-            <TabsTrigger value="summarizer" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              <span className="hidden md:inline">Summarizer</span>
-            </TabsTrigger>
-            <TabsTrigger value="planner" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              <span className="hidden md:inline">Planner</span>
-            </TabsTrigger>
-            <TabsTrigger value="timer" className="flex items-center gap-2">
-              <Timer className="h-4 w-4" />
-              <span className="hidden md:inline">Timer</span>
-            </TabsTrigger>
-            <TabsTrigger value="resources" className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
-              <span className="hidden md:inline">Resources</span>
-            </TabsTrigger>
-            <TabsTrigger value="progress" className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              <span className="hidden md:inline">Progress</span>
-            </TabsTrigger>
-            <TabsTrigger value="leaderboard" className="flex items-center gap-2">
-              <Trophy className="h-4 w-4" />
-              <span className="hidden md:inline">Leaderboard</span>
-            </TabsTrigger>
-            <TabsTrigger value="classroom" className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
-              <span className="hidden md:inline">Classroom</span>
-            </TabsTrigger>
+          <TabsList className="flex flex-wrap h-auto gap-1 mb-8 bg-card/70 backdrop-blur-sm p-2 border border-border/50 shadow-sm rounded-xl">
+            {[
+              { value: 'chat', icon: Brain, label: 'AI Chat' },
+              { value: 'solver', icon: Lightbulb, label: 'Solver' },
+              { value: 'flashcards', icon: Layers, label: 'Flashcards' },
+              { value: 'quiz', icon: FileQuestion, label: 'Quiz' },
+              { value: 'summarizer', icon: FileText, label: 'Summarizer' },
+              { value: 'planner', icon: Calendar, label: 'Planner' },
+              { value: 'timer', icon: Timer, label: 'Timer' },
+              { value: 'resources', icon: BookOpen, label: 'Resources' },
+              { value: 'progress', icon: TrendingUp, label: 'Progress' },
+              { value: 'leaderboard', icon: Trophy, label: 'Leaderboard' },
+              { value: 'classroom', icon: BookOpen, label: 'Classroom' },
+            ].map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg transition-all duration-300 hover:scale-105"
+              >
+                <tab.icon className="h-4 w-4" />
+                <span className="hidden md:inline">{tab.label}</span>
+              </TabsTrigger>
+            ))}
           </TabsList>
 
-          <TabsContent value="chat" className="space-y-6">
-            <ChatInterface userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="solver" className="space-y-6">
-            <ProblemSolver userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="flashcards" className="space-y-6">
-            <FlashcardGenerator userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="quiz" className="space-y-6">
-            <QuizGenerator userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="summarizer" className="space-y-6">
-            <NoteSummarizer userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="planner" className="space-y-6">
-            <StudyPlanGenerator userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="timer" className="space-y-6">
-            <PomodoroTimer userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="resources" className="space-y-6">
-            <StudyResources userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="progress" className="space-y-6">
-            <GamificationDisplay userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="leaderboard" className="space-y-6">
-            <Leaderboard userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="classroom" className="space-y-6">
-            <JoinClassroom userId={user.id} />
-          </TabsContent>
-
-          <TabsContent value="profile" className="space-y-6">
-            <ProfileSettings user={user} />
-          </TabsContent>
-
+          {[
+            { value: 'chat', component: <ChatInterface userId={user.id} /> },
+            { value: 'solver', component: <ProblemSolver userId={user.id} /> },
+            { value: 'flashcards', component: <FlashcardGenerator userId={user.id} /> },
+            { value: 'quiz', component: <QuizGenerator userId={user.id} /> },
+            { value: 'summarizer', component: <NoteSummarizer userId={user.id} /> },
+            { value: 'planner', component: <StudyPlanGenerator userId={user.id} /> },
+            { value: 'timer', component: <PomodoroTimer userId={user.id} /> },
+            { value: 'resources', component: <StudyResources userId={user.id} /> },
+            { value: 'progress', component: <GamificationDisplay userId={user.id} /> },
+            { value: 'leaderboard', component: <Leaderboard userId={user.id} /> },
+            { value: 'classroom', component: <JoinClassroom userId={user.id} /> },
+            { value: 'profile', component: <ProfileSettings user={user} /> },
+          ].map((tab) => (
+            <TabsContent key={tab.value} value={tab.value} className="animate-fade-in-up">
+              {tab.component}
+            </TabsContent>
+          ))}
         </Tabs>
       </main>
     </div>
